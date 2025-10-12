@@ -13,7 +13,7 @@ const app = express();
    CORS（允許 GitHub Pages 來源）
    ========================= */
 app.use(cors({
-  origin: ['https://taipei-marathon.smartchat.live','https://justin-321-hub.github.io','https://taipei-marathon-english.smartchat.live','https://taipei-marathon-japan.smartchat.live'],
+  origin: ['https://taipei-marathon.smartchat.live','https://justin-321-hub.github.io','https://taipei-marathon-english.smartchat.live','https://taipei-marathon-japan.smartchat.live','https://pop44661.github.io'],
   methods: ['GET', 'POST', 'OPTIONS'],
   // 保留 X-Client-Id 供多使用者識別
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Id'],
@@ -94,6 +94,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
