@@ -187,10 +187,10 @@ app.get('/api/chat/result/:requestID', async (req, res) => {
         return res.status(500).json({ message: '內部錯誤：無法讀取結果' });
     }
 
-    console.log(result);
+    //console.log(result);
 
 
-    if (!result) {
+    if (result === null) {
         // 3.2. 如果 ID 不存在，可能是 ID 錯誤或結果已過期 (TTL) 或已被清除
         return res.status(404).json({ message: '請求 ID 不存在或已過期' });
     }
@@ -205,7 +205,10 @@ app.get('/api/chat/result/:requestID', async (req, res) => {
               console.error(`[POLLING] Redis 刪除失敗: ${delError}`);
               // 這裡只印出錯誤，不影響回傳結果給前端
         }
-        return res.status(200).json(result.data);
+        return res.status(200).json({
+            status: 'completed',
+            ...result.data
+        });
     }
     
     // 3.4. 結果尚未完成
@@ -230,6 +233,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
