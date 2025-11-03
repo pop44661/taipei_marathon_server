@@ -11,7 +11,8 @@ import { fileURLToPath } from 'url'; // 🚨 導入用於處理路徑的工具
 
 const app = express();
 
-const REDIS_TTL_SECONDS = 3600; // 快取結果的存活時間 (TTL)，設定為 1 小時
+const REDIS_TTL_SECONDS = 1200; // 快取等待結果的存活時間 (TTL)，設定為 20 分鐘
+const REDIS_TTL_COMPLETED = 600; // 快取結果的存活時間 (TTL)，設定為 10 分鐘
 const REDIS_URL = process.env.REDIS_URL; 
 const client = createClient({
     url: REDIS_URL || 'redis://127.0.0.1:6379' 
@@ -151,7 +152,7 @@ app.post('/api/chat/callback', async (req, res) => {
 
         try {
             // 將結果儲存在 Redis 中，並更新狀態為 'completed'，同時保持 TTL
-            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_SECONDS });
+            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_COMPLETED });
             console.log(`[CALLBACK] 請求 ID: ${requestID} 已在 Redis 中更新為 completed`);
 
             // 2.2. 回覆 N8N，表示結果已成功接收
@@ -223,6 +224,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
