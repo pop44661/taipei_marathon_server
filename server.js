@@ -88,9 +88,9 @@ app.post('/api/chat/start', async (req, res) => {
         
         const url = process.env.N8N_WEBHOOK_URL;
         if (!url) return res.status(500).json({ error: '缺少 N8N_WEBHOOK_URL' });
-        console.log(payload)
+        //console.log(payload)
         console.log(cid)
-        console.log(url)
+        //console.log(url)
 
         // 讀取 clientId（body 優先，其次 header），預設 anon
         
@@ -156,7 +156,7 @@ app.post('/api/chat/callback', async (req, res) => {
 
         try {
             // 將結果儲存在 Redis 中，並更新狀態為 'completed'，同時保持 TTL
-            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_COMPLETED });
+            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_SECONDS });
             console.log(`[CALLBACK] 請求 ID: ${requestID} 已在 Redis 中更新為 completed`);
 
             // 2.2. 回覆 N8N，表示結果已成功接收
@@ -228,6 +228,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
