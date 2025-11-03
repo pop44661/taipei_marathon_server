@@ -123,7 +123,7 @@ app.post('/api/chat/start', async (req, res) => {
         }
         
     } catch (err) {
-        console.error('發送給 N8N 失敗:', err?.name, err?.message, err?.cause?.code);
+        console.error('發送給 N8N 失敗:', err);
         // 發送失敗也應刪除 Redis 中的 ID
         await client.del(requestID);
         return res.status(502).json({
@@ -225,6 +225,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
