@@ -13,6 +13,7 @@ const app = express();
 
 const REDIS_TTL_SECONDS = 1200; // 快取等待結果的存活時間 (TTL)，設定為 20 分鐘
 const REDIS_TTL_COMPLETED = 600; // 快取結果的存活時間 (TTL)，設定為 10 分鐘
+const SERVER_BASE_URL = process.env.RENDER_EXTERNAL_URL;
 const REDIS_URL = process.env.REDIS_URL; 
 const client = createClient({
     url: REDIS_URL || 'redis://127.0.0.1:6379' 
@@ -224,6 +225,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
