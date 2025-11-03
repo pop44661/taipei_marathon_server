@@ -7,6 +7,7 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import { createClient } from 'redis';
+import { fileURLToPath } from 'url'; // 🚨 導入用於處理路徑的工具
 
 const app = express();
 
@@ -42,6 +43,8 @@ app.options('*', cors());
    通用中介層
    ========================= */
 app.use(express.json({ limit: '1mb' }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // 這是新的 __dirname
 app.use(express.static(path.join(__dirname, 'public')));
 
 /* 健康檢查 */
@@ -220,6 +223,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
