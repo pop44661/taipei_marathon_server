@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url'; // 🚨 導入用於處理路徑的工具
 const app = express();
 
 const REDIS_TTL_SECONDS = 1200; // 快取等待結果的存活時間 (TTL)，設定為 20 分鐘
-const REDIS_TTL_COMPLETED = 600; // 快取結果的存活時間 (TTL)，設定為 10 分鐘
+const REDIS_TTL_COMPLETED = 300; // 快取結果的存活時間 (TTL)，設定為 5 分鐘
 const SERVER_BASE_URL = process.env.RENDER_EXTERNAL_URL;
 const REDIS_URL = process.env.REDIS_URL; 
 const client = createClient({
@@ -89,7 +89,7 @@ app.post('/api/chat/start', async (req, res) => {
         const url = process.env.N8N_WEBHOOK_URL;
         if (!url) return res.status(500).json({ error: '缺少 N8N_WEBHOOK_URL' });
         //console.log(payload)
-        console.log(cid)
+        //console.log(cid)
         //console.log(url)
 
         // 讀取 clientId（body 優先，其次 header），預設 anon
@@ -156,7 +156,7 @@ app.post('/api/chat/callback', async (req, res) => {
 
         try {
             // 將結果儲存在 Redis 中，並更新狀態為 'completed'，同時保持 TTL
-            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_SECONDS });
+            await client.set(requestID, JSON.stringify(completedData), { EX: REDIS_TTL_COMPLETED });
             console.log(`[CALLBACK] 請求 ID: ${requestID} 已在 Redis 中更新為 completed`);
 
             // 2.2. 回覆 N8N，表示結果已成功接收
@@ -186,6 +186,8 @@ app.get('/api/chat/result/:requestID', async (req, res) => {
         console.error(`[POLLING] Redis 讀取失敗: ${redisError}`);
         return res.status(500).json({ message: '內部錯誤：無法讀取結果' });
     }
+
+    console.log(result);
 
 
     if (!result) {
@@ -228,6 +230,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
