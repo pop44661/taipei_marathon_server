@@ -88,6 +88,9 @@ app.post('/api/chat/start', async (req, res) => {
         
         const url = process.env.N8N_WEBHOOK_URL;
         if (!url) return res.status(500).json({ error: '缺少 N8N_WEBHOOK_URL' });
+        console.log(payload)
+        console.log(cid)
+        console.log(url)
 
         // 讀取 clientId（body 優先，其次 header），預設 anon
         
@@ -225,6 +228,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
