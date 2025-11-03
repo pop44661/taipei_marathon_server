@@ -11,7 +11,10 @@ import { createClient } from 'redis';
 const app = express();
 
 const REDIS_TTL_SECONDS = 3600; // 快取結果的存活時間 (TTL)，設定為 1 小時
-const client = createClient();
+const REDIS_URL = process.env.REDIS_URL; 
+const client = createClient({
+    url: REDIS_URL || 'redis://127.0.0.1:6379' 
+});
     
 client.on('error', (err) => console.error('🔴 Redis 連線錯誤:', err));
 
@@ -217,6 +220,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
