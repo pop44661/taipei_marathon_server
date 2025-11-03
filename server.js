@@ -2,11 +2,11 @@
 // 提供靜態前端 + API：/api/chat
 // 需求：Node 18+ (原生 fetch)、dotenv、express、cors、redis
 
-require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const { createClient } = require('redis');
+import 'dotenv/config';
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import { createClient } from 'redis';
 
 const app = express();
 
@@ -217,6 +217,7 @@ app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}`);
 
 });
+
 
 
 
