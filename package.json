@@ -1,7 +1,6 @@
 {
   "name": "chat-n8n",
   "version": "1.0.0",
-  "type": "module",
   "description": "HTML+CSS+Node.js 聊天頁面，整合 n8n（無語音版）",
   "main": "server.js",
   "scripts": {
